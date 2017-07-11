@@ -1,0 +1,23 @@
+{
+  "name": "not-interactive",
+  "version": "1.0.0",
+  "description": "Generate a gamelike animated gif",
+  "author": "ABA",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash": "^4.14.68",
+    "awesome-typescript-loader": "^3.2.1",
+    "glob": "^7.1.2",
+    "typescript": "^2.4.1",
+    "webpack": "^3.1.0",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "p5": "^0.5.11"
+  },
+  "scripts": {
+    "wds": "webpack-dev-server --inline",
+    "build": "webpack"
+  }
+}
