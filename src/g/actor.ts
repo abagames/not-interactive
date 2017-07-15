@@ -8,8 +8,7 @@ export const rotationNum = 16;
 export interface ActorOptions {
   hasMuzzleEffect?: boolean;
   hasTrail?: boolean;
-  destroyedEffect?: string[];
-  isEndingGameWhenDestroyed?: boolean;
+  destroyedEffect?: string;
 }
 
 export class Actor {
@@ -21,7 +20,7 @@ export class Actor {
   isAlive = true;
   priority = 1;
   ticks = 0;
-  pixels: pag.Pixel[][][];
+  sprite: { pixels: pag.Pixel[][][], offset: p5.Vector }[] = [];
   type: string;
   collisionType: string;
   collision = g.p.createVector(8, 8);
@@ -50,8 +49,8 @@ export class Actor {
     this.pos.add(this.vel);
     this.pos.x += Math.cos(this.angle) * this.speed;
     this.pos.y += Math.sin(this.angle) * this.speed;
-    if (this.pixels != null) {
-      this.drawPixels();
+    if (this.sprite != null) {
+      this.drawSprite();
     }
     _.forEach(this.modules, m => {
       if (m.isEnabled) {
@@ -67,12 +66,9 @@ export class Actor {
 
   destroy() {
     if (this.options.destroyedEffect != null) {
-      this.emitParticles(`${this.options.destroyedEffect[1]}_${this.type}_d`,
-        this.options.isEndingGameWhenDestroyed ? { sizeScale: 2 } : null,
+      this.emitParticles(`${this.options.destroyedEffect}_${this.type}_d`,
+        null,
         this.game.particlePool);
-    }
-    if (this.options.isEndingGameWhenDestroyed) {
-      this.game.endGame();
     }
     this.remove();
   }
@@ -94,22 +90,26 @@ export class Actor {
     ppe.emit(patternName, this.pos.x, this.pos.y, this.angle, options, pool);
   }
 
-  drawPixels(x: number = null, y: number = null) {
-    if (x == null) {
-      x = this.pos.x;
-    }
-    if (y == null) {
-      y = this.pos.y;
-    }
-    if (this.pixels.length <= 1) {
-      pag.draw(this.context, this.pixels, x, y);
+  addSpritePixels(pixels: pag.Pixel[][][], offsetX = 0, offsetY = 0) {
+    this.sprite.push({ pixels, offset: g.p.createVector(offsetX, offsetY) });
+  }
+
+  drawSprite(x: number = this.pos.x, y: number = this.pos.y) {
+    _.forEach(this.sprite, s => {
+      this.drawSpritePixels(s.pixels, x + s.offset.x, y + s.offset.y);
+    });
+  }
+
+  drawSpritePixels(pixels: pag.Pixel[][][], x: number, y: number) {
+    if (this.sprite.length <= 1) {
+      pag.draw(this.context, pixels, x, y);
     } else {
       let a = this.angle;
       if (a < 0) {
         a = Math.PI * 2 + a % (Math.PI * 2);
       }
       const ri = Math.round(a / (Math.PI * 2 / rotationNum)) % rotationNum;
-      pag.draw(this.context, this.pixels, x, y, ri);
+      pag.draw(this.context, pixels, x, y, ri);
     }
   }
 
@@ -124,13 +124,11 @@ export class Actor {
   }
 }
 
-export class Player extends Actor {
+export class Ship extends Actor {
   constructor(game: g.Game = g.game) {
-    super(
-      { hasTrail: true, destroyedEffect: ['u', 'e'], isEndingGameWhenDestroyed: true },
-      game);
-    this.type = this.collisionType = 'player';
-    this.pixels = pag.generate(['x x', ' xxx'], { hue: 0.2 });
+    super({ hasTrail: true, destroyedEffect: 'u' }, game);
+    this.type = this.collisionType = 'ship';
+    this.addSpritePixels(pag.generate(['x x', ' xxx'], { hue: 0.2 }));
     this.collision.set(5, 5);
     const s = game.screen;
     this.pos.set(game.screen.size.x / 2, game.screen.size.y / 2);
@@ -141,9 +139,9 @@ export class Player extends Actor {
 
 export class Enemy extends Actor {
   constructor(game: g.Game = g.game) {
-    super({ hasTrail: true, destroyedEffect: ['e', 'e'] }, game);
+    super({ hasTrail: true, destroyedEffect: 'e' }, game);
     this.type = this.collisionType = 'enemy';
-    this.pixels = pag.generate([' xx', 'xxxx'], { hue: 0 });
+    this.addSpritePixels(pag.generate([' xx', 'xxxx'], { hue: 0 }));
     new g.DestroyWhenColliding(this, 'shot', true);
   }
 }
@@ -152,7 +150,7 @@ export class Shot extends Actor {
   constructor(actor, speed = 2, angle = null) {
     super({ hasTrail: true, hasMuzzleEffect: true }, actor.game);
     this.type = this.collisionType = 'shot';
-    this.pixels = pag.generate(['xxx'], { hue: 0.4 });
+    this.addSpritePixels(pag.generate(['xxx'], { hue: 0.4 }));
     this.pos.set(actor.pos);
     this.angle = angle == null ? actor.angle : angle;
     this.speed = speed;
@@ -165,7 +163,7 @@ export class Bullet extends Actor {
   constructor(actor, speed = 2, angle = null) {
     super({ hasTrail: true, hasMuzzleEffect: true }, actor.game);
     this.type = this.collisionType = 'bullet';
-    this.pixels = pag.generate(['xxxx'], { hue: 0.1 });
+    this.addSpritePixels(pag.generate(['xxxx'], { hue: 0.1 }));
     this.pos.set(actor.pos);
     this.angle = angle == null ? actor.angle : angle;
     this.speed = speed;
@@ -177,16 +175,15 @@ export class Item extends Actor {
   constructor
     (pos: p5.Vector, vel: p5.Vector = null, public gravity: p5.Vector = null,
     game: g.Game = g.game) {
-    super({ hasTrail: true, destroyedEffect: ['s', 's'] }, game);
+    super({ hasTrail: true, destroyedEffect: 's' }, game);
     this.type = this.collisionType = 'item';
-    this.pixels = pag.generate([' o', 'ox'], { isMirrorX: true, hue: 0.25 });
+    this.addSpritePixels(pag.generate([' o', 'ox'], { isMirrorX: true, hue: 0.25 }));
     this.pos.set(pos);
     if (vel != null) {
       this.vel = vel;
     }
     this.priority = 0.6;
     this.collision.set(10, 10);
-    new g.DestroyWhenColliding(this, 'player');
   }
 
   update() {
@@ -209,7 +206,7 @@ export class Wall extends Actor {
     const pt = [_.times(pw, () => 'o').join('')].concat(
       _.times(ph - 1, () => ['o'].concat(_.times(pw - 1, () => 'x')).join(''))
     );
-    this.pixels = pag.generate(pt, { isMirrorX: true, hue, seed });
+    this.addSpritePixels(pag.generate(pt, { isMirrorX: true, hue, seed }));
     this.type = this.collisionType = 'wall';
     this.pos.set(pos);
     this.priority = 0.2;
@@ -278,7 +275,7 @@ export class Panel extends Actor {
     super({}, game);
     const pagOptions: any = { isMirrorX: true, value: 0.5, rotationNum: 1 };
     pagOptions.colorLighting = 0;
-    this.pixels = pag.generate(['ooo', 'oxx', 'oxx'], pagOptions);
+    this.addSpritePixels(pag.generate(['ooo', 'oxx', 'oxx'], pagOptions));
     this.pos.set(x, y);
     new g.WrapPos(this);
     this.priority = -1;
