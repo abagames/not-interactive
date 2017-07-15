@@ -1,5 +1,5 @@
 module.exports = {
-  entry: require('glob').sync('./src/**/*.ts'),
+  entry: './src/index.ts',
   output: {
     path: __dirname + '/docs',
     filename: 'bundle.js',

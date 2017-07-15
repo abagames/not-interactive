@@ -7,7 +7,6 @@
   "devDependencies": {
     "@types/lodash": "^4.14.68",
     "awesome-typescript-loader": "^3.2.1",
-    "glob": "^7.1.2",
     "typescript": "^2.4.1",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.5.1"
