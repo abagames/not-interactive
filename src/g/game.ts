@@ -71,16 +71,20 @@ export function endGame() {
   p.draw = null;
 }
 
-export function beginGame() {
-  clearGameStatus();
-  const seed = seedRandom.getInt(9999999);
+export function beginGame(seed: number = null) {
+  if (seed == null) {
+    seed = seedRandom.getInt(9999999);
+  }
+  setSeeds(seed);
   _.forEach(games, g => {
     g.beginGame(seed);
   });
 }
 
-function clearGameStatus() {
-  ppe.clear();
+function setSeeds(seed: number) {
+  pag.setSeed(seed);
+  ppe.setSeed(seed);
+  ppe.reset();
 }
 
 function update() {
@@ -129,12 +133,6 @@ export class Game {
     this.p.draw = null;
   }
 
-  setSeeds(seed: number) {
-    pag.setSeed(seed);
-    ppe.setSeed(seed);
-    ppe.reset();
-  }
-
   beginGame(seed: number) {
     this.clearGameStatus();
     this.random.setSeed(seed);
@@ -143,6 +141,7 @@ export class Game {
   clearGameStatus() {
     this.clearModules();
     this.actorPool.clear();
+    this.particlePool.clear();
     this.ticks = 0;
   }
 
@@ -157,6 +156,17 @@ export class Game {
     ppe.update();
     this.actorPool.update();
     this.ticks++;
+  }
+
+  scroll(x: number, y: number = 0) {
+    _.forEach(this.actorPool.actors, a => {
+      a.pos.x += x;
+      a.pos.x += y;
+    });
+    _.forEach(this.particlePool.getParticles(), p => {
+      p.pos.x += x;
+      p.pos.y += y;
+    });
   }
 }
 
