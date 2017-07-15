@@ -6,20 +6,23 @@ window.onload = () => g.init(update);
 
 let p: p5;
 let isInitialized = false;
-let isCaptured = false;
+let isCapturing = false;
 
 function init() {
   isInitialized = true;
   p = g.game.p;
-  g.setUpdatingCountPerFrame(10);
-  gcc.setOptions({
-    capturingFps: 60,
-    appFps: 60,
-    durationSec: 0,
-    scale: 2
-  });
-  const pl = new g.Player();
-  pl.speed = 0.2;
+  if (isCapturing) {
+    gcc.setOptions({
+      capturingFps: 60,
+      appFps: 60,
+      durationSec: 0,
+      scale: 2,
+      quality: 1
+    });
+    g.setUpdatingCountPerFrame(10);
+  }
+  const pl = new g.Ship();
+  pl.speed = 0.33;
 }
 
 function update() {
@@ -27,18 +30,15 @@ function update() {
     init();
   }
   updateFrame();
-  if (!isCaptured && g.game.ticks >= 300) {
-    isCaptured = true;
+  if (isCapturing && g.game.ticks >= 300) {
+    isCapturing = false;
     g.endGame();
     gcc.end();
   }
 }
 
 function updateFrame() {
-  p.fill('white');
-  p.ellipse(100, 50,
-    Math.sin(g.game.ticks * 0.1) * 30, Math.cos(g.game.ticks * 0.2) * 20);
-  if (!isCaptured) {
+  if (!isCapturing) {
     gcc.capture(g.game.screen.canvas);
   }
 }
