@@ -27,7 +27,7 @@ export function init(_updateFunc: Function, isCreatingDefaultGame = true) {
   pag.setDefaultOptions({
     isMirrorY: true,
     rotationNum,
-    scale: 2
+    scale: 3
   });
   //limitColors();
   new p5((_p: p5) => {
