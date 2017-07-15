@@ -7,7 +7,7 @@ window.onload = () => g.init(update);
 
 let isCapturing = false;
 //let isCapturing = true;
-let seed = 112;//13;
+let seed = 1;
 
 let game: g.Game;
 let screen: g.Screen;
@@ -32,11 +32,12 @@ function init() {
   p = game.p;
   if (isCapturing) {
     gcc.setOptions({
-      capturingFps: 60,
+      capturingFps: 30,
       appFps: 60,
       durationSec: 0,
       scale: 2,
-      quality: 1
+      quality: 5,
+      downloadFileName: 'cartree.gif'
     });
     g.setUpdatingCountPerFrame(10);
   }
@@ -62,7 +63,7 @@ function update() {
 }
 
 function updateFrame() {
-  scroll(game.getDifficulty());
+  scroll((game.getDifficulty() - 1) * 0.7 + 1);
   adjustRoad();
   if (game.ticks < 13.5 * 60 &&
     random.get() < game.getDifficulty() * game.getDifficulty() * 0.015) {
@@ -74,17 +75,17 @@ function updateFrame() {
       t.pos.set(screen.size.x * 1.1, screen.size.y * (i * 0.1 + 0.3));
     });
   }
-  if (game.ticks >= 10 && game.ticks < 240) {
+  if (game.ticks >= 10 && game.ticks < 250) {
     g.text.draw('PUT A CURSOR OR A FINGER ON THE SCREEN',
-      20, 40, g.text.Align.left);
+      5, 20, g.text.Align.left);
   }
-  if (game.ticks >= 50 && game.ticks < 240) {
+  if (game.ticks >= 50 && game.ticks < 250) {
     g.text.draw('AVOID CARS AND TREES',
-      20, 60, g.text.Align.left);
+      5, 40, g.text.Align.left);
   }
-  if (game.ticks >= 90 && game.ticks < 240) {
+  if (game.ticks >= 90 && game.ticks < 250) {
     g.text.draw('GAME OVER SHOULD BE SELF-REPORTED',
-      20, 80, g.text.Align.left);
+      5, 60, g.text.Align.left);
   }
   if (isCapturing) {
     gcc.capture(g.game.screen.canvas);
