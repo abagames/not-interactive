@@ -67,7 +67,7 @@ export class Actor {
   destroy() {
     if (this.options.destroyedEffect != null) {
       this.emitParticles(`${this.options.destroyedEffect}_${this.type}_d`,
-        null,
+        {},
         this.game.particlePool);
     }
     this.remove();
@@ -80,6 +80,7 @@ export class Actor {
 
   testCollision(type: string) {
     return _.filter<Actor>(this.game.actorPool.getByCollisionType(type), a =>
+      a !== this &&
       Math.abs(this.pos.x - a.pos.x) < (this.collision.x + a.collision.x) / 2 &&
       Math.abs(this.pos.y - a.pos.y) < (this.collision.y + a.collision.y) / 2
     );
@@ -287,7 +288,6 @@ export class Text extends Actor {
     (public str: string, public duration = 30,
     public align: g.text.Align = null, game: g.Game = g.game) {
     super({}, game);
-    this.vel.y = -2;
   }
 
   update() {
