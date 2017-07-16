@@ -7,7 +7,7 @@ window.onload = () => g.init(update);
 
 let isCapturing = false;
 //let isCapturing = true;
-let seed = 1;
+let seed = 42;
 
 let game: g.Game;
 let screen: g.Screen;
@@ -32,11 +32,11 @@ function init() {
   p = game.p;
   if (isCapturing) {
     gcc.setOptions({
-      capturingFps: 30,
+      capturingFps: 60,
       appFps: 60,
       durationSec: 0,
-      scale: 2,
-      quality: 5,
+      scale: 1,
+      quality: 10,
       downloadFileName: 'cartree.gif'
     });
     g.setUpdatingCountPerFrame(10);
