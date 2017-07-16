@@ -1,19 +1,12 @@
 import * as _ from 'lodash';
 import * as pag from 'pag';
-import * as gcc from 'gcc';
-import * as g from './g/game';
-
-window.onload = () => g.init(update);
-
-let isCapturing = false;
-//let isCapturing = true;
-let seed = 42;
+import * as ni from './ni/index';
+import * as g from './g/index';
 
 let game: g.Game;
 let screen: g.Screen;
 let random: g.Random;
 let p: p5;
-let isInitialized = false;
 
 const addingInterval = 20;
 let addingX: number;
@@ -22,26 +15,15 @@ let roadWidth: number;
 let roadCenterVelY: number;
 let roadWidthVel: number;
 
-function init() {
-  isInitialized = true;
-  game = g.game;
+window.onload = () => {
+  ni.init('cartree', init, update);
+}
+
+function init(_game: g.Game) {
+  game = _game;
   screen = game.screen;
   random = game.random;
-  screen.canvas.style.width = `${screen.size.x * 2}px`;
-  screen.canvas.style.height = `${screen.size.y * 2}px`;
   p = game.p;
-  if (isCapturing) {
-    gcc.setOptions({
-      capturingFps: 60,
-      appFps: 60,
-      durationSec: 0,
-      scale: 1,
-      quality: 10,
-      downloadFileName: 'cartree.gif'
-    });
-    g.setUpdatingCountPerFrame(10);
-  }
-  g.beginGame(seed);
   addingX = screen.size.x;
   roadCenterY = screen.size.y / 2;
   roadCenterVelY = 0;
@@ -51,18 +33,6 @@ function init() {
 }
 
 function update() {
-  if (!isInitialized) {
-    init();
-  }
-  updateFrame();
-  if (isCapturing && g.game.ticks >= 60 * 15) {
-    isCapturing = false;
-    g.endGame();
-    gcc.end();
-  }
-}
-
-function updateFrame() {
   scroll((game.getDifficulty() - 1) * 0.7 + 1);
   adjustRoad();
   if (game.ticks < 13.5 * 60 &&
@@ -86,9 +56,6 @@ function updateFrame() {
   if (game.ticks >= 90 && game.ticks < 250) {
     g.text.draw('GAME OVER SHOULD BE SELF-REPORTED',
       5, 60, g.text.Align.left);
-  }
-  if (isCapturing) {
-    gcc.capture(g.game.screen.canvas);
   }
 }
 

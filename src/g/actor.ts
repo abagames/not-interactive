@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as pag from 'pag';
 import * as ppe from 'ppe';
-import * as g from './game';
+import * as g from './index';
 
 export const rotationNum = 16;
 

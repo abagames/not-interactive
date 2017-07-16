@@ -18,12 +18,10 @@ export let p: p5;
 export let games: Game[] = [];
 export let game: Game;
 let seedRandom: Random;
-let updateFunc: Function;
 let updatingCountPerFrame = 1;
 let isDebugEnabled = false;
 
-export function init(_updateFunc: Function, isCreatingDefaultGame = true) {
-  updateFunc = _updateFunc;
+export function init() {
   pag.setDefaultOptions({
     isMirrorY: true,
     rotationNum,
@@ -36,9 +34,6 @@ export function init(_updateFunc: Function, isCreatingDefaultGame = true) {
       p.createCanvas(0, 0);
       text.init();
       seedRandom = new Random();
-      if (isCreatingDefaultGame) {
-        game = new Game();
-      }
     };
     p.draw = update;
   });
@@ -64,14 +59,7 @@ export function setUpdatingCountPerFrame(c: number) {
   updatingCountPerFrame = c;
 }
 
-export function endGame() {
-  _.forEach(games, g => {
-    g.endGame();
-  });
-  p.draw = null;
-}
-
-export function beginGame(seed: number = null) {
+export function beginGames(seed: number = null) {
   if (seed == null) {
     seed = seedRandom.getInt(9999999);
   }
@@ -92,7 +80,6 @@ function update() {
     _.forEach(games, g => {
       g.update();
     });
-    updateFunc();
   });
 }
 
@@ -105,7 +92,8 @@ export class Game {
   random: Random;
   modules = [];
 
-  constructor(width = 250, height = 125) {
+  constructor(width: number, height: number,
+    public initFunc: Function = null, public updateFunc: Function = null) {
     this.random = new Random();
     new p5((_p: p5) => {
       this.p = _p;
@@ -114,6 +102,9 @@ export class Game {
         this.particlePool = new ppe.ParticlePool(this.screen.canvas);
       };
     });
+    if (games.length <= 0) {
+      game = this;
+    }
     games.push(this);
   }
 
@@ -129,13 +120,18 @@ export class Game {
     return util.getDifficulty(this);
   }
 
-  endGame() {
-    this.p.draw = null;
-  }
-
   beginGame(seed: number) {
     this.clearGameStatus();
     this.random.setSeed(seed);
+    if (this.initFunc != null) {
+      this.initFunc(this);
+    }
+  }
+
+  remove() {
+    _.remove(games, g => g === this);
+    this.p.draw = null;
+    this.screen.remove();
   }
 
   clearGameStatus() {
@@ -155,6 +151,9 @@ export class Game {
     this.actorPool.updateLowerZero();
     ppe.update();
     this.actorPool.update();
+    if (this.updateFunc != null) {
+      this.updateFunc();
+    }
     this.ticks++;
   }
 
@@ -242,5 +241,9 @@ export class Screen {
 
   clear() {
     this.p.background(0);
+  }
+
+  remove() {
+    document.body.removeChild(this.canvas);
   }
 }

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as pag from 'pag';
-import * as g from './game';
+import * as g from './index';
 
 let dotPatterns;
 let charToIndex;

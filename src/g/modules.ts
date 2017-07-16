@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as g from './game';
+import * as g from './index';
 import * as ppe from 'ppe';
 
 class Module {
