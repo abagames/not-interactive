@@ -2,7 +2,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: __dirname + '/docs',
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: ['.ts', '.js'],
