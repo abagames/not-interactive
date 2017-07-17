@@ -60,7 +60,7 @@ function initGame() {
   if (game != null) {
     game.remove();
   }
-  game = new g.Game(250, 125, initFunc, update);
+  game = new g.Game(300, 150, initFunc, update);
   const screen = game.screen;
   screen.canvas.style.width = `${screen.size.x * 2}px`;
   screen.canvas.style.height = `${screen.size.y * 2}px`;

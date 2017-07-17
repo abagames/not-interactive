@@ -9,7 +9,7 @@ let random: g.Random;
 let p: p5;
 
 window.onload = () => {
-  ni.init('foobar', init, update);
+  ni.init('', init, update);
 }
 
 function init(_game: g.Game) {

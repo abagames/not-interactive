@@ -17,7 +17,11 @@ export default class Random {
   }
 
   getPm() {
-    return this.get(2) * 2 - 1;
+    return this.getInt(2) * 2 - 1;
+  }
+
+  select(values: any[]) {
+    return values[this.getInt(values.length)];
   }
 
   setSeed(v: number = -0x7fffffff) {
