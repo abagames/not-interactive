@@ -1,6 +1,7 @@
 not-interactive
 ======================
 Generate a gamelike animated gif.
+The generated animated gif is supposed to be played as a game on a twitter timeline.
 
 ### Samples
 
