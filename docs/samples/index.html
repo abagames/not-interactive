@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>not-interactive</title>
+</head>
+
+<body>
+  <script>
+    var gameName = window.location.search.substring(1);
+    document.title = gameName;
+    var script = document.createElement('script');
+    script.src = gameName + '.js';
+    document.body.appendChild(script);
+  </script>
+</body>
+
+</html>
