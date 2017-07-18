@@ -8,6 +8,7 @@
 <body>
   <script>
     var gameName = window.location.search.substring(1);
+    gameName = gameName.replace(/\W/g, '');
     document.title = gameName;
     var script = document.createElement('script');
     script.src = gameName + '.js';
