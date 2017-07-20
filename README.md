@@ -5,10 +5,15 @@ The generated animated gif is supposed to be played as a game on a twitter timel
 
 ### Samples
 
-Demo | [cartree](https://abagames.github.io/not-interactive/samples/index.html?cartree) | [redoil](https://abagames.github.io/not-interactive/samples/index.html?redoil) | [findwho](https://abagames.github.io/not-interactive/samples/index.html?findwho)
---- | --- | --- | ---
-Image | ![cartree](https://abagames.github.io/not-interactive/samples/cartree.gif) | ![redoil](https://abagames.github.io/not-interactive/samples/redoil.gif) | ![findwho](https://abagames.github.io/not-interactive/samples/findwho.gif)
-Source | [cartree](https://github.com/abagames/not-interactive/blob/master/src/samples/cartree.ts) | [redoil](https://github.com/abagames/not-interactive/blob/master/src/samples/redoil.ts) | [findwho](https://github.com/abagames/not-interactive/blob/master/src/samples/findwho.ts)
+Demo | [cartree](https://abagames.github.io/not-interactive/samples/index.html?cartree) | [redoil](https://abagames.github.io/not-interactive/samples/index.html?redoil)
+--- | --- | ---
+Image | ![cartree](https://abagames.github.io/not-interactive/samples/cartree.gif) | ![redoil](https://abagames.github.io/not-interactive/samples/redoil.gif)
+Source | [cartree](https://github.com/abagames/not-interactive/blob/master/src/samples/cartree.ts) | [redoil](https://github.com/abagames/not-interactive/blob/master/src/samples/redoil.ts)
+
+Demo | [findwho](https://abagames.github.io/not-interactive/samples/index.html?findwho) | [reflas](https://abagames.github.io/not-interactive/samples/index.html?reflas)
+--- | --- | ---
+Image | ![findwho](https://abagames.github.io/not-interactive/samples/findwho.gif) | ![reflas](https://abagames.github.io/not-interactive/samples/reflas.gif)
+Source | [findwho](https://github.com/abagames/not-interactive/blob/master/src/samples/findwho.ts) | [reflas](https://github.com/abagames/not-interactive/blob/master/src/samples/reflas.ts)
 
 ### Libraries
 
