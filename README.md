@@ -13,7 +13,7 @@ Source | [cartree](https://github.com/abagames/not-interactive/blob/master/src/s
 
 Demo | [findwho](https://abagames.github.io/not-interactive/samples/index.html?findwho) | [reflas](https://abagames.github.io/not-interactive/samples/index.html?reflas)
 --- | --- | ---
-Image | ![findwho](https://abagames.github.io/not-interactive/samples/findwho.gif) | ![reflas](https://abagames.github.io/not-interactive/samples/reflas.gif)
+Image | ![findwho](https://abagames.github.io/not-interactive/samples/findwho.gif) | 
 Source | [findwho](https://github.com/abagames/not-interactive/blob/master/src/samples/findwho.ts) | [reflas](https://github.com/abagames/not-interactive/blob/master/src/samples/reflas.ts)
 
 ### Libraries
