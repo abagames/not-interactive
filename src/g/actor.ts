@@ -102,7 +102,7 @@ export class Actor {
   }
 
   drawSpritePixels(pixels: pag.Pixel[][][], x: number, y: number) {
-    if (this.sprite.length <= 1) {
+    if (pixels.length <= 1) {
       pag.draw(this.context, pixels, x, y);
     } else {
       let a = this.angle;
