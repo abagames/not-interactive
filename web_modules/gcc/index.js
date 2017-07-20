@@ -115,19 +115,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.captureSvg = captureSvg;
 	function begin(element) {
-	    if (isInfiniteDuration) {
-	        contexts = [];
-	    }
-	    else {
+	    if (!isInfiniteDuration) {
 	        contextsNum = exports.options.durationSec * exports.options.capturingFps;
 	        contexts = times(contextsNum, function () { return createContext(element); });
-	        isCaptured = times(contextsNum, function () { return false; });
 	    }
+	    reset();
 	    document.addEventListener('keydown', function (e) {
 	        if (e.keyCode == exports.options.keyCode) {
 	            end();
 	        }
 	    });
+	}
+	function reset() {
+	    if (isInfiniteDuration) {
+	        contexts = [];
+	    }
+	    else {
+	        isCaptured = times(contextsNum, function () { return false; });
+	    }
 	}
 	function createContext(element) {
 	    var cvs = document.createElement('canvas');
@@ -161,6 +166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    }
 	    encoder.finish();
+	    reset();
 	    if (exports.options.downloadFileName != null) {
 	        encoder.download(exports.options.downloadFileName);
 	        return null;
