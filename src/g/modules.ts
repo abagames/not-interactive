@@ -330,10 +330,10 @@ export class CollideToWall extends Module {
     }
     collisionInfo.wall.adjustPos(this.actor, collisionInfo.angle);
     if (collisionInfo.angle === 0 || collisionInfo.angle === 2) {
-      this.actor.vel.x *= -1;
+      this.actor.vel.x *= -1 * this.velRatio;
     }
     if (collisionInfo.angle === 1 || collisionInfo.angle === 3) {
-      this.actor.vel.y *= -1;
+      this.actor.vel.y *= -1 * this.velRatio;
     }
     if (this.isDestroying) {
       collisionInfo.wall.destroy();
