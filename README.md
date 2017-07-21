@@ -11,9 +11,9 @@ Demo | [cartree](https://abagames.github.io/not-interactive/samples/index.html?c
 Image | ![cartree](https://abagames.github.io/not-interactive/samples/cartree.gif) | ![redoil](https://abagames.github.io/not-interactive/samples/redoil.gif)
 Source | [cartree](https://github.com/abagames/not-interactive/blob/master/src/samples/cartree.ts) | [redoil](https://github.com/abagames/not-interactive/blob/master/src/samples/redoil.ts)
 
-Demo | [findwho](https://abagames.github.io/not-interactive/samples/index.html?findwho) | [reflas](https://abagames.github.io/not-interactive/samples/index.html?reflas)
+Demo | [findwho](https://abagames.github.io/not-interactive/samples/?findwho) | [reflas](https://abagames.github.io/not-interactive/samples/index.html?reflas)
 --- | --- | ---
-Image | ![findwho](https://abagames.github.io/not-interactive/samples/findwho.gif) | 
+Image | ![findwho](https://abagames.github.io/not-interactive/samples/findwho.gif) | ![reflas](https://abagames.github.io/not-interactive/samples/reflas.gif)
 Source | [findwho](https://github.com/abagames/not-interactive/blob/master/src/samples/findwho.ts) | [reflas](https://github.com/abagames/not-interactive/blob/master/src/samples/reflas.ts)
 
 ### Libraries
